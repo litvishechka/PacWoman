@@ -1,4 +1,3 @@
 # PacWoman
 
-To run win32 api you need to add library "wingdi" to your config file.
-If you use MinGw64 and VS Code add `"-lgdi32"` to `tasks.json`.
+To run app you need to download library "SFML" from [site](https://www.sfml-dev.org/tutorials/2.5/).
