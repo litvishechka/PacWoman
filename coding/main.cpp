@@ -43,7 +43,7 @@ public:
 	int direction_movement = 1, delay = 0;
 
 	void update() {
-		frame += 0.1;
+		frame += 0.005;
 		if (frame > 5)
 			frame -= 5;
 
@@ -72,16 +72,13 @@ public:
 			delay = 0;
 		}
 
+		if (TileMap[new_y][new_x] == '1' || TileMap[new_y][new_x] == '2' 
+			|| TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4') life = false;
+
 		if (TileMap[new_y][new_x] == ' ' || TileMap[new_y][new_x] == 'B') {
-			if (TileMap[new_y][new_x] == ' ')
-				counter++;
-			
-			if (TileMap[new_y][new_x] == '1'
-				|| TileMap[new_y][new_x] == '2' || TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4')
-				life = false;
+			if (TileMap[new_y][new_x] == ' ') counter++;
 
 			TileMap[y][x] = 'B';
-
 			TileMap[new_y][new_x] = 'C';
 
 			x = new_x;
@@ -105,21 +102,21 @@ public:
 
 class Enemy {
 public:
-	int x[4] = { 8, 9, 10, 9}, y[4] = {9, 9, 9, 8};
+	int x[4] = {8, 9, 10, 9}, y[4] = {9, 9, 9, 8};
 	int new_x[4] = {0 , 0, 0, 0 }, new_y[4] = {0, 0, 0, 0};
-	int rotate[4] = {1, 1, 1, 1}, ti = 0;
+	int direction_movement[4] = {1, 1, 1, 1}, delay = 0;
 
 	void update() {
-		ti++;
+		delay++;
 
-		if (ti >= 500) {
+		if (delay >= 500) {
 			for (int i = 0; i < 4; i++) {
-				rotate[i] = rand() % 4 + 1;
+				direction_movement[i] = rand() % 4 + 1;
 
 				new_x[i] = x[i];
 				new_y[i] = y[i];
 
-				switch (rotate[i])
+				switch (direction_movement[i])
 				{
 				case 1:
 					if (TileMap[y[i]][new_x[i] + 1] != 'A')
@@ -140,12 +137,11 @@ public:
 				}
 			}
 
-			ti = 0;
+			delay = 0;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			if (TileMap[new_y[i]][new_x[i]] == ' ' || TileMap[new_y[i]][new_x[i]] == 'B' ||
-				TileMap[new_y[i]][new_x[i]] == 'C') {
+			if (TileMap[new_y[i]][new_x[i]] == ' ' || TileMap[new_y[i]][new_x[i]] == 'B' || TileMap[new_y[i]][new_x[i]] == 'C') {
 				if (TileMap[new_y[i]][new_x[i]] == 'B')
 					TileMap[y[i]][x[i]] = 'B';
 				else if (TileMap[new_y[i]][new_x[i]] == ' ')
@@ -197,6 +193,11 @@ int main()
  
 	Player p;
 	Enemy en;
+
+	Texture yw;
+	yw.loadFromFile("C:\\Users\\VivoBook\\Desktop\\win.png");
+	Sprite youwin(yw);
+	youwin.setPosition(100, 210);
  
 	Texture herotexture;
 	herotexture.loadFromFile("C:\\Users\\VivoBook\\Desktop\\new.png");
@@ -205,26 +206,22 @@ int main()
 	while (window.isOpen())	{	
 		Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == Event::Closed)
-				window.close();
+			if (event.type == Event::Closed) window.close();
 
-			if (counter < 171 && life)
+			if (counter < 175 && life) {
 				if (event.type == Event::KeyPressed) {
 					p.new_x = p.x;
 					p.new_y = p.y;
 
-					if (event.key.code == Keyboard::Right)
-						p.direction_movement = 1;
-					if (event.key.code == Keyboard::Left)
-						p.direction_movement = 2;
-					if (event.key.code == Keyboard::Up)
-						p.direction_movement = 3;
-					if (event.key.code == Keyboard::Down)
-						p.direction_movement = 4;
+					if (event.key.code == Keyboard::Right) p.direction_movement = 1;
+					if (event.key.code == Keyboard::Left) p.direction_movement = 2;
+					if (event.key.code == Keyboard::Up) p.direction_movement = 3;
+					if (event.key.code == Keyboard::Down) p.direction_movement = 4;
 				}
+			}
 		}
 
-		if (counter < 171 && life) {
+		if (counter < 175 && life) {
 			p.update();
 			en.update();
 		}
@@ -232,18 +229,21 @@ int main()
 
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				if (TileMap[i][j] == 'A') plat.setTextureRect(IntRect(0,0,25,25));
+				if (TileMap[i][j] == 'A') plat.setTextureRect(IntRect(0, 0, ts, ts));
 				if (TileMap[i][j] == 'C') plat.setTextureRect(IntRect(ts * int(p.frame), ts * p.direction_movement, ts, ts));
-                if (TileMap[i][j] == ' ') plat.setTextureRect(IntRect(25, 0, 50, 25));
-				if (TileMap[i][j] == '1') plat.setTextureRect(IntRect(ts * 5, ts * en.rotate[0], ts, ts));
-				if (TileMap[i][j] == '2') plat.setTextureRect(IntRect(ts * 6, ts * en.rotate[1], ts, ts));
-				if (TileMap[i][j] == '3') plat.setTextureRect(IntRect(ts * 7, ts * en.rotate[1], ts, ts));
-				if (TileMap[i][j] == '4') plat.setTextureRect(IntRect(ts * 8, ts * en.rotate[1], ts, ts));
+                if (TileMap[i][j] == ' ') plat.setTextureRect(IntRect(ts, 0, 2 * ts, ts));
+				if (TileMap[i][j] == '1') plat.setTextureRect(IntRect(ts * 5, ts * en.direction_movement[0], ts, ts));
+				if (TileMap[i][j] == '2') plat.setTextureRect(IntRect(ts * 6, ts * en.direction_movement[1], ts, ts));
+				if (TileMap[i][j] == '3') plat.setTextureRect(IntRect(ts * 7, ts * en.direction_movement[2], ts, ts));
+				if (TileMap[i][j] == '4') plat.setTextureRect(IntRect(ts * 8, ts * en.direction_movement[3], ts, ts));
                 if (TileMap[i][j] == 'B') continue;
+
                 plat.setPosition(j * ts, i * ts);
 				window.draw(plat);
             }
         }
+		if (counter == 175)
+			window.draw(youwin);
 		window.display();
 	}
 
