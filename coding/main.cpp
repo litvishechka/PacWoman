@@ -1,15 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include <time.h>
  
 using namespace sf;
-const int H = 21;
-const int W = 19;
+const int height  = 21;
+const int width = 19;
 
 const int ts = 25;
 
-int q = 0;
+int counter = 0;
 bool life = true;
 
-String TileMap[H] = {
+String TileMap[height] = {
 "AAAAAAAAAAAAAAAAAAA",
 "A        A        A",
 "A AA AAA A AAA AA A",
@@ -38,66 +39,66 @@ class Player {
 public:
 	float frame = 0;
 	int x = 9, y = 15;
-	int newx = 0, newy = 0;
-	int rotate = 1, ti = 0;
+	int new_x = 0, new_y = 0;
+	int direction_movement = 1, delay = 0;
 
 	void update() {
 		frame += 0.1;
 		if (frame > 5)
 			frame -= 5;
 
-		ti++;
-		if (ti >= 300) {
-			switch (rotate)
+		delay++;
+		if (delay >= 500) {
+			switch (direction_movement)
 			{
 			case 1:
-				if (TileMap[y][newx + 1] != 'A')
-					newx += 1;
+				if (TileMap[y][new_x + 1] != 'A')
+					new_x += 1;
 				break;
 			case 2:
-				if (TileMap[y][newx - 1] != 'A')
-					newx -= 1;
+				if (TileMap[y][new_x - 1] != 'A')
+					new_x -= 1;
 				break;
 			case 3:
-				if (TileMap[newy - 1][x] != 'A')
-					newy -= 1;
+				if (TileMap[new_y - 1][x] != 'A')
+					new_y -= 1;
 				break;
 			case 4:
-				if (TileMap[newy + 1][x] != 'A')
-					newy += 1;
+				if (TileMap[new_y + 1][x] != 'A')
+					new_y += 1;
 				break;
 			}
 
-			ti = 0;
+			delay = 0;
 		}
 
-		if (TileMap[newy][newx] == ' ' || TileMap[newy][newx] == 'B') {
-			if (TileMap[newy][newx] == ' ')
-				q++;
+		if (TileMap[new_y][new_x] == ' ' || TileMap[new_y][new_x] == 'B') {
+			if (TileMap[new_y][new_x] == ' ')
+				counter++;
 			
-			if (TileMap[newy][newx] == '1'
-				|| TileMap[newy][newx] == '2' || TileMap[newy][newx] == '3' || TileMap[newy][newx] == '4')
+			if (TileMap[new_y][new_x] == '1'
+				|| TileMap[new_y][new_x] == '2' || TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4')
 				life = false;
 
 			TileMap[y][x] = 'B';
 
-			TileMap[newy][newx] = 'C';
+			TileMap[new_y][new_x] = 'C';
 
-			x = newx;
-			y = newy;
+			x = new_x;
+			y = new_y;
 		}
 
-		if (newy == 9 && (newx == 0 || newx == 18)) {
-			if (newx == 0)
-				newx = 17;
+		if (new_y == 9 && (new_x == 0 || new_x == 18)) {
+			if (new_x == 0)
+				new_x = 17;
 			else
-				newx = 1;
+				new_x = 1;
 
 			TileMap[y][x] = 'B';
-			TileMap[newy][newx] = 'C';
+			TileMap[new_y][new_x] = 'C';
 
-			x = newx;
-			y = newy;
+			x = new_x;
+			y = new_y;
 		}
 	}
 };
@@ -105,36 +106,36 @@ public:
 class Enemy {
 public:
 	int x[4] = { 8, 9, 10, 9}, y[4] = {9, 9, 9, 8};
-	int newx[4] = { 0 , 0 , 0, 0 }, newy[4] = { 0, 0, 0, 0 };
-	int rotate[4] = { 1, 1, 1, 1 }, ti = 0;
+	int new_x[4] = {0 , 0, 0, 0 }, new_y[4] = {0, 0, 0, 0};
+	int rotate[4] = {1, 1, 1, 1}, ti = 0;
 
 	void update() {
 		ti++;
 
-		if (ti >= 300) {
+		if (ti >= 500) {
 			for (int i = 0; i < 4; i++) {
 				rotate[i] = rand() % 4 + 1;
 
-				newx[i] = x[i];
-				newy[i] = y[i];
+				new_x[i] = x[i];
+				new_y[i] = y[i];
 
 				switch (rotate[i])
 				{
 				case 1:
-					if (TileMap[y[i]][newx[i] + 1] != 'A')
-						newx[i] += 1;
+					if (TileMap[y[i]][new_x[i] + 1] != 'A')
+						new_x[i] += 1;
 					break;
 				case 2:
-					if (TileMap[y[i]][newx[i] - 1] != 'A')
-						newx[i] -= 1;
+					if (TileMap[y[i]][new_x[i] - 1] != 'A')
+						new_x[i] -= 1;
 					break;
 				case 3:
-					if (TileMap[newy[i] - 1][x[i]] != 'A')
-						newy[i] -= 1;
+					if (TileMap[new_y[i] - 1][x[i]] != 'A')
+						new_y[i] -= 1;
 					break;
 				case 4:
-					if (TileMap[newy[i] + 1][x[i]] != 'A')
-						newy[i] += 1;
+					if (TileMap[new_y[i] + 1][x[i]] != 'A')
+						new_y[i] += 1;
 					break;
 				}
 			}
@@ -143,47 +144,47 @@ public:
 		}
 
 		for (int i = 0; i < 4; i++) {
-			if (TileMap[newy[i]][newx[i]] == ' ' || TileMap[newy[i]][newx[i]] == 'B' ||
-				TileMap[newy[i]][newx[i]] == 'C') {
-				if (TileMap[newy[i]][newx[i]] == 'B')
+			if (TileMap[new_y[i]][new_x[i]] == ' ' || TileMap[new_y[i]][new_x[i]] == 'B' ||
+				TileMap[new_y[i]][new_x[i]] == 'C') {
+				if (TileMap[new_y[i]][new_x[i]] == 'B')
 					TileMap[y[i]][x[i]] = 'B';
-				else if (TileMap[newy[i]][newx[i]] == ' ')
+				else if (TileMap[new_y[i]][new_x[i]] == ' ')
 					TileMap[y[i]][x[i]] = ' ';
-				else if (TileMap[newy[i]][newx[i]] == 'C')
+				else if (TileMap[new_y[i]][new_x[i]] == 'C')
 					life = false;
 
 				if (i == 0)
-					TileMap[newy[i]][newx[i]] = '1';
+					TileMap[new_y[i]][new_x[i]] = '1';
 				if (i == 1)
-					TileMap[newy[i]][newx[i]] = '2';
+					TileMap[new_y[i]][new_x[i]] = '2';
 				if (i == 2)
-					TileMap[newy[i]][newx[i]] = '3';
+					TileMap[new_y[i]][new_x[i]] = '3';
 				if (i == 3)
-					TileMap[newy[i]][newx[i]] = '4';
+					TileMap[new_y[i]][new_x[i]] = '4';
 
-				x[i] = newx[i];
-				y[i] = newy[i];
+				x[i] = new_x[i];
+				y[i] = new_y[i];
 			}
 
-			if (newy[i] == 9 && (newx[i] == 0 || newx[i] == 18)) {
-				if (newx[i] == 0)
-					newx[i] = 17;
+			if (new_y[i] == 9 && (new_x[i] == 0 || new_x[i] == 18)) {
+				if (new_x[i] == 0)
+					new_x[i] = 17;
 				else
-					newx[i] = 1;
+					new_x[i] = 1;
 
 				TileMap[y[i]][x[i]] = 'B';
 				
 				if (i == 0)
-					TileMap[newy[i]][newx[i]] = '1';
+					TileMap[new_y[i]][new_x[i]] = '1';
 				if (i == 1)
-					TileMap[newy[i]][newx[i]] = '2';
+					TileMap[new_y[i]][new_x[i]] = '2';
 				if (i == 2)
-					TileMap[newy[i]][newx[i]] = '3';
+					TileMap[new_y[i]][new_x[i]] = '3';
 				if (i == 3)
-					TileMap[newy[i]][newx[i]] = '4';
+					TileMap[new_y[i]][new_x[i]] = '4';
 
-				x[i] = newx[i];
-				y[i] = newy[i];
+				x[i] = new_x[i];
+				y[i] = new_y[i];
 			}
 		}
 	}
@@ -191,7 +192,8 @@ public:
 
 int main()
 {
-	RenderWindow window(VideoMode(W * ts, H * ts), "PacWoman"); 
+	srand(time(0));
+	RenderWindow window(VideoMode(width * ts, height * ts), "PacWoman"); 
  
 	Player p;
 	Enemy en;
@@ -200,37 +202,46 @@ int main()
 	herotexture.loadFromFile("C:\\Users\\VivoBook\\Desktop\\new.png");
 	Sprite plat(herotexture);
  
-	Sprite herosprite;
-	herosprite.setTexture(herotexture);
-	herosprite.setTextureRect(IntRect(0, 0, 25, 25));//получили нужный нам прямоугольник с котом
-    int ts = 25;
-	while (window.isOpen())	
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{   
-			if (event.type == sf::Event::Closed)
+	while (window.isOpen())	{	
+		Event event;
+		while (window.pollEvent(event)) {
+			if (event.type == Event::Closed)
 				window.close();
+
+			if (counter < 171 && life)
+				if (event.type == Event::KeyPressed) {
+					p.new_x = p.x;
+					p.new_y = p.y;
+
+					if (event.key.code == Keyboard::Right)
+						p.direction_movement = 1;
+					if (event.key.code == Keyboard::Left)
+						p.direction_movement = 2;
+					if (event.key.code == Keyboard::Up)
+						p.direction_movement = 3;
+					if (event.key.code == Keyboard::Down)
+						p.direction_movement = 4;
+				}
 		}
 
-		if (q < 171 && life) {
+		if (counter < 171 && life) {
 			p.update();
 			en.update();
 		}
         window.clear(Color::Black);
 
-        for (int i = 0; i < H; i++) {
-			for (int j = 0; j < W; j++) {
-				if (TileMap[i][j] == 'A') herosprite.setTextureRect(IntRect(0,0,25,25));
-				if (TileMap[i][j] == 'C') herosprite.setTextureRect(IntRect(ts * int(p.frame), ts * p.rotate, ts, ts));
-                if (TileMap[i][j] == ' ') herosprite.setTextureRect(IntRect(25, 0, 50, 25));
-				if (TileMap[i][j] == '1') herosprite.setTextureRect(IntRect(ts * 5, ts * en.rotate[0], ts, ts));
-				if (TileMap[i][j] == '2') herosprite.setTextureRect(IntRect(ts * 6, ts * en.rotate[1], ts, ts));
-				if (TileMap[i][j] == '3') herosprite.setTextureRect(IntRect(ts * 7, ts * en.rotate[1], ts, ts));
-				if (TileMap[i][j] == '4') herosprite.setTextureRect(IntRect(ts * 8, ts * en.rotate[1], ts, ts));
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (TileMap[i][j] == 'A') plat.setTextureRect(IntRect(0,0,25,25));
+				if (TileMap[i][j] == 'C') plat.setTextureRect(IntRect(ts * int(p.frame), ts * p.direction_movement, ts, ts));
+                if (TileMap[i][j] == ' ') plat.setTextureRect(IntRect(25, 0, 50, 25));
+				if (TileMap[i][j] == '1') plat.setTextureRect(IntRect(ts * 5, ts * en.rotate[0], ts, ts));
+				if (TileMap[i][j] == '2') plat.setTextureRect(IntRect(ts * 6, ts * en.rotate[1], ts, ts));
+				if (TileMap[i][j] == '3') plat.setTextureRect(IntRect(ts * 7, ts * en.rotate[1], ts, ts));
+				if (TileMap[i][j] == '4') plat.setTextureRect(IntRect(ts * 8, ts * en.rotate[1], ts, ts));
                 if (TileMap[i][j] == 'B') continue;
-                herosprite.setPosition(j * ts, i * ts);
-				window.draw(herosprite);
+                plat.setPosition(j * ts, i * ts);
+				window.draw(plat);
             }
         }
 		window.display();
