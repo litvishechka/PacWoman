@@ -48,7 +48,7 @@ public:
 			frame -= 5;
 
 		delay++;
-		if (delay >= 500) {
+		if (delay >= 350) {
 			switch (direction_movement)
 			{
 			case 1:
@@ -72,11 +72,14 @@ public:
 			delay = 0;
 		}
 
-		if (TileMap[new_y][new_x] == '1' || TileMap[new_y][new_x] == '2' 
-			|| TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4') life = false;
+		//if (TileMap[new_y][new_x] == '1' || TileMap[new_y][new_x] == '2' 
+		//	|| TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4') life = false;
 
 		if (TileMap[new_y][new_x] == ' ' || TileMap[new_y][new_x] == 'B') {
 			if (TileMap[new_y][new_x] == ' ') counter++;
+
+			if (TileMap[new_y][new_x] == '1' || TileMap[new_y][new_x] == '2' 
+			|| TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4') life = false;
 
 			TileMap[y][x] = 'B';
 			TileMap[new_y][new_x] = 'C';
@@ -109,7 +112,7 @@ public:
 	void update() {
 		delay++;
 
-		if (delay >= 500) {
+		if (delay >= 350) {
 			for (int i = 0; i < 4; i++) {
 				direction_movement[i] = rand() % 4 + 1;
 
@@ -131,6 +134,7 @@ public:
 						new_y[i] -= 1;
 					break;
 				case 4:
+
 					if (TileMap[new_y[i] + 1][x[i]] != 'A')
 						new_y[i] += 1;
 					break;
@@ -145,9 +149,9 @@ public:
 				if (TileMap[new_y[i]][new_x[i]] == 'B')
 					TileMap[y[i]][x[i]] = 'B';
 				else if (TileMap[new_y[i]][new_x[i]] == ' ')
-					TileMap[y[i]][x[i]] = ' ';
+						TileMap[y[i]][x[i]] = ' ';
 				else if (TileMap[new_y[i]][new_x[i]] == 'C')
-					life = false;
+						life = false;
 
 				if (i == 0)
 					TileMap[new_y[i]][new_x[i]] = '1';
@@ -197,7 +201,12 @@ int main()
 	Texture yw;
 	yw.loadFromFile("C:\\Users\\VivoBook\\Desktop\\win.png");
 	Sprite youwin(yw);
-	youwin.setPosition(100, 210);
+	youwin.setPosition(-50, 100);
+
+	Texture yl;
+	yl.loadFromFile("C:\\Users\\VivoBook\\Desktop\\lose.png");
+	Sprite youlose(yl);
+	youlose.setPosition(-50, 100);
  
 	Texture herotexture;
 	herotexture.loadFromFile("C:\\Users\\VivoBook\\Desktop\\new.png");
@@ -244,6 +253,8 @@ int main()
         }
 		if (counter == 175)
 			window.draw(youwin);
+		if (!life)
+			window.draw(youlose);
 		window.display();
 	}
 
