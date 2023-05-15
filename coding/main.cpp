@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
+#include <sstream>
  
 using namespace sf;
 const int height  = 21;
@@ -41,6 +42,7 @@ public:
 	int x = 9, y = 15;
 	int new_x = 0, new_y = 0;
 	int direction_movement = 1, delay = 0;
+	int score = 0;
 
 	void update() {
 		frame += 0.005;
@@ -48,7 +50,7 @@ public:
 			frame -= 5;
 
 		delay++;
-		if (delay >= 350) {
+		if (delay >= 250) {
 			switch (direction_movement)
 			{
 			case 1:
@@ -76,7 +78,10 @@ public:
 		//	|| TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4') life = false;
 
 		if (TileMap[new_y][new_x] == ' ' || TileMap[new_y][new_x] == 'B') {
-			if (TileMap[new_y][new_x] == ' ') counter++;
+			if (TileMap[new_y][new_x] == ' ') {
+				counter++;
+				score++;
+			}
 
 			if (TileMap[new_y][new_x] == '1' || TileMap[new_y][new_x] == '2' 
 			|| TileMap[new_y][new_x] == '3' || TileMap[new_y][new_x] == '4') life = false;
@@ -112,7 +117,7 @@ public:
 	void update() {
 		delay++;
 
-		if (delay >= 350) {
+		if (delay >= 250) {
 			for (int i = 0; i < 4; i++) {
 				direction_movement[i] = rand() % 4 + 1;
 
@@ -190,10 +195,14 @@ public:
 	}
 };
 
-int main()
-{
+int main() {
 	srand(time(0));
-	RenderWindow window(VideoMode(width * ts, height * ts), "PacWoman"); 
+	RenderWindow window(VideoMode(width * ts, height * ts + 40), "PacWoman"); 
+
+	Font font;//шрифт 
+ 	font.loadFromFile("C:\\OOP\\Pacman\\font\\score.ttf");//передаем нашему шрифту файл шрифта
+ 	Text text("", font, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
+	text.setStyle(sf::Text::Bold | sf::Text::Underlined);
  
 	Player p;
 	Enemy en;
@@ -250,6 +259,11 @@ int main()
                 plat.setPosition(j * ts, i * ts);
 				window.draw(plat);
             }
+			std::ostringstream playerScoreString;    // объявили переменную
+			playerScoreString << p.score;		//занесли в нее число очков, то есть формируем строку
+			text.setString("Score:" + playerScoreString.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
+			text.setPosition(0, 515);//задаем позицию текста
+			window.draw(text);//рисую этот текст
         }
 		if (counter == 175)
 			window.draw(youwin);
