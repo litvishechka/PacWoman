@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <sstream>
+#include "menu.cpp"
  
 using namespace sf;
 const int height  = 21;
@@ -198,27 +199,28 @@ public:
 int main() {
 	srand(time(0));
 	RenderWindow window(VideoMode(width * ts, height * ts + 40), "PacWoman"); 
+	menu(window);
 
 	Font font;//шрифт 
- 	font.loadFromFile("C:\\OOP\\Pacman\\font\\score.ttf");//передаем нашему шрифту файл шрифта
+ 	font.loadFromFile("C:\\OOP\\PacWoman\\font\\score.ttf");//передаем нашему шрифту файл шрифта
  	Text text("", font, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
-	text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	text.setStyle(sf::Text::Bold);
  
 	Player p;
 	Enemy en;
 
 	Texture yw;
-	yw.loadFromFile("C:\\Users\\VivoBook\\Desktop\\win.png");
+	yw.loadFromFile("C:\\OOP\\PacWoman\\picture\\win.png");
 	Sprite youwin(yw);
 	youwin.setPosition(-50, 100);
 
 	Texture yl;
-	yl.loadFromFile("C:\\Users\\VivoBook\\Desktop\\lose.png");
+	yl.loadFromFile("C:\\OOP\\PacWoman\\picture\\lose.png");
 	Sprite youlose(yl);
 	youlose.setPosition(-50, 100);
  
 	Texture herotexture;
-	herotexture.loadFromFile("C:\\Users\\VivoBook\\Desktop\\new.png");
+	herotexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\element.png");
 	Sprite plat(herotexture);
  
 	while (window.isOpen())	{	
@@ -261,7 +263,7 @@ int main() {
             }
 			std::ostringstream playerScoreString;    // объявили переменную
 			playerScoreString << p.score;		//занесли в нее число очков, то есть формируем строку
-			text.setString("Score:" + playerScoreString.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
+			text.setString("Score: " + playerScoreString.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
 			text.setPosition(0, 515);//задаем позицию текста
 			window.draw(text);//рисую этот текст
         }
