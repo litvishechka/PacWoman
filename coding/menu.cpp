@@ -3,19 +3,24 @@
 using namespace sf;
 
 void menu(RenderWindow & window) {
-	Texture menuTexture1, menuTexture2, menuTexture3, aboutTexture, menuBackground;
-	menuTexture1.loadFromFile("C:\\OOP\\PacWoman\\picture\\level1.png");
-	menuTexture2.loadFromFile("C:\\OOP\\PacWoman\\picture\\level2.png");
-	menuTexture3.loadFromFile("C:\\OOP\\PacWoman\\picture\\description_game.png");
-	aboutTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\aboutgame.png");
+	Texture menuTexture, menuTexture1, menuTexture2, menuTexture3, aboutTexture, menuBackground, wallTexture;
+	menuTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\menu.png"); 
+	menuTexture1.loadFromFile("C:\\OOP\\PacWoman\\picture\\play.png");
+	menuTexture2.loadFromFile("C:\\OOP\\PacWoman\\picture\\description_game.png");
+	menuTexture3.loadFromFile("C:\\OOP\\PacWoman\\picture\\exit.png");
+	aboutTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\aboutgamepng.png");
 	menuBackground.loadFromFile("C:\\OOP\\PacWoman\\picture\\pacwoman.png");
-	Sprite menu1(menuTexture1), menu2(menuTexture2), menu3(menuTexture3), about(aboutTexture), menuBg(menuBackground);
+	wallTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\wall.png");
+	Sprite menuText(menuTexture), menu1(menuTexture1), menu2(menuTexture2), menu3(menuTexture3), about(aboutTexture), menuBg(menuBackground);
+	Sprite wall(wallTexture);
 	bool isMenu = true;
 	int menuNum = 0;
-	menu1.setPosition(150, 50);
-	menu2.setPosition(155, 100);
-	menu3.setPosition(155, 160);
+	menuText.setPosition(75, 10);
+	menu1.setPosition(160, 120);
+	menu2.setPosition(145, 190);
+	menu3.setPosition(164, 260);
 	menuBg.setPosition(0, 370);
+	wall.setPosition(0, 0);
  
 	while (isMenu)
 	{
@@ -25,21 +30,20 @@ void menu(RenderWindow & window) {
 		menuNum = 0;
 		window.clear(Color(0, 0, 0));
  
-		if (IntRect(150, 50, 200, 70).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Magenta); menuNum = 1; }
-		if (IntRect(155, 100, 200, 100).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Magenta); menuNum = 2; }
-		if (IntRect(155, 130, 180, 150).contains(Mouse::getPosition(window))) { menu3.setColor(Color::Magenta); menuNum = 3; }
+		if (IntRect(160, 120, 155, 57).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Magenta); menuNum = 1; }
+		if (IntRect(145, 190, 185, 46).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Magenta); menuNum = 2; }
+		if (IntRect(150, 260, 150, 34).contains(Mouse::getPosition(window))) { menu3.setColor(Color::Magenta); menuNum = 3; }
  
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
 			if (menuNum == 1) isMenu = false;//если нажали первую кнопку, то выходим из меню 
-			if (menuNum == 2) isMenu = false;  
-			//window.draw(about); window.display(); while (!Keyboard::isKeyPressed(Keyboard::Escape)); }
-			//if (menuNum == 3)  { window.close(); isMenu = false; }
-			if (menuNum == 3) { window.draw(about); window.display(); while (!Keyboard::isKeyPressed(Keyboard::Escape)); }
+			if (menuNum == 2) { window.draw(about); window.display(); while (!Keyboard::isKeyPressed(Keyboard::Escape)); }
+			if (menuNum == 3)  { window.close(); isMenu = false; }
  
 		}
  
- 
+		window.draw(wall);
+		window.draw(menuText);
 		window.draw(menuBg);
 		window.draw(menu1);
 		window.draw(menu2);
