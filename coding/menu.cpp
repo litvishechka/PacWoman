@@ -8,7 +8,7 @@ void menu(RenderWindow & window) {
 	menuTexture1.loadFromFile("C:\\OOP\\PacWoman\\picture\\play.png");
 	menuTexture2.loadFromFile("C:\\OOP\\PacWoman\\picture\\description_game.png");
 	menuTexture3.loadFromFile("C:\\OOP\\PacWoman\\picture\\exit.png");
-	aboutTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\aboutgamepng.png");
+	aboutTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\aboutgame.png");
 	menuBackground.loadFromFile("C:\\OOP\\PacWoman\\picture\\pacwoman.png");
 	wallTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\wall.png");
 	Sprite menuText(menuTexture), menu1(menuTexture1), menu2(menuTexture2), menu3(menuTexture3), about(aboutTexture), menuBg(menuBackground);
