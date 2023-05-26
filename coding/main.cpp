@@ -79,14 +79,11 @@ int main() {
 			text.setPosition(0, 515);//задаем позицию текста
 			window.draw(text);//рисую этот текст
         }
-		if (counter == 175)
-			window.draw(youwin);
+		if (counter == 175) window.draw(youwin);
 		if (!life) {
 			window.draw(youlose);
 		}
 		window.display();
-	
 	}
-	
 	return 0;
 }
