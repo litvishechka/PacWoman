@@ -15,7 +15,7 @@ int main() {
 
 	Font font;//шрифт 
  	font.loadFromFile("C:\\OOP\\PacWoman\\font\\score.ttf");//передаем нашему шрифту файл шрифта
- 	Text text("", font, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
+ 	Text text("", font, 40);//создаем объект текст, закидываем в объект текст (строку), шрифт, размер шрифта (в пикселях)
 	text.setStyle(sf::Text::Bold);
  
 	Player p;
@@ -58,11 +58,11 @@ int main() {
 		if ((counter == 175 || !life) && restartTime != 0) {
 			restartTime--;
 				if (restartTime == 0) {
-					for (int i = 0; i < height; i++)
-						for (int j = 0; j < width; j++)
-							if (TileMap[i][j] == 'B')
-								TileMap[i][j] = ' ';
-
+					for (int i = 0; i < height; i++) {
+						for (int j = 0; j < width; j++) { 
+							if (TileMap[i][j] == 'B') TileMap[i][j] = ' ';
+						}
+					}
 					p.player_restart = true;
 					en.restart_enemy = true;
 
@@ -72,18 +72,20 @@ int main() {
 					p.score = 0;
 					life = true;
 					p.direction_movement = 4;
-					
 					restartTime = 5000;
+
 					menu(window);
 				}
 		}
 		
 		if (!life) {
-			if (restartTime == 100) 
-				for (int i = 0; i < height; i++)
-					for (int j = 0; j < width; j++)
-						if (TileMap[i][j] != 'A')
-							TileMap[i][j] = 'B';	
+			if (restartTime == 100) {
+				for (int i = 0; i < height; i++) {
+					for (int j = 0; j < width; j++) {
+						if (TileMap[i][j] != 'A') TileMap[i][j] = 'B';	
+					}
+				}
+			}
 		}
 
 		if (counter < 175 && life) {
@@ -110,12 +112,11 @@ int main() {
 			playerScoreString << p.score;		//занесли в нее число очков, то есть формируем строку
 			text.setString("Score: " + playerScoreString.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
 			text.setPosition(0, 515);//задаем позицию текста
-			window.draw(text);//рисую этот текст
+			window.draw(text);
         }
 		if (counter == 175) window.draw(youwin);
-		if (!life) {
-			window.draw(youlose);
-		}
+		if (!life) window.draw(youlose);
+		
 		window.display();
 	}
 	return 0;

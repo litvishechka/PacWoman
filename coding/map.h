@@ -35,16 +35,16 @@ std::string TileMap[height] = {
 };
 
 void clearing_card() {
-	for (int i = 0; i <= 2; i++)
+	for (int i = 0; i <= 2; i++) {
 		for (int j = 0; j <= 2; j++) {
 			for (int x = 0; x < 2; x++) {
 				TileMap[7 + j * 2][i + 16 * x] = 'B';
-
 				TileMap[9][3 + 12 * x] = 'B';
 			}
 
 			TileMap[9][8 + j] = 'B';
 		}
+	}
 }
 
 #endif

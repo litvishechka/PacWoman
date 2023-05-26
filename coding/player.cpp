@@ -17,27 +17,21 @@ void Player::update() {
 	}
 	else {
 		frame += 0.005;
-		if (frame > 5)
-			frame -= 5;
-
+		if (frame > 5) frame -= 5;
 		delay++;
 		if (delay >= 250) {
 			switch (direction_movement) {
 			case 1:
-				if (TileMap[y][new_x + 1] != 'A')
-					new_x += 1;
+				if (TileMap[y][new_x + 1] != 'A') new_x += 1;
 				break;
 			case 2:
-				if (TileMap[y][new_x - 1] != 'A')
-					new_x -= 1;
+				if (TileMap[y][new_x - 1] != 'A') new_x -= 1;
 				break;
 			case 3:
-				if (TileMap[new_y - 1][x] != 'A')
-					new_y -= 1;
+				if (TileMap[new_y - 1][x] != 'A') new_y -= 1;
 				break;
 			case 4:
-				if (TileMap[new_y + 1][x] != 'A')
-					new_y += 1;
+				if (TileMap[new_y + 1][x] != 'A') new_y += 1;
 				break;
 			}
 
