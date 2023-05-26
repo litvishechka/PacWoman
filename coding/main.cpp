@@ -34,6 +34,8 @@ int main() {
 	Texture herotexture;
 	herotexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\element.png");
 	Sprite plat(herotexture);
+
+	clearing_card();
  
 	while (window.isOpen())	{	
 		Event event;
@@ -51,6 +53,37 @@ int main() {
 					if (event.key.code == Keyboard::Down) p.direction_movement = 4;
 				}
 			}
+		}
+
+		if ((counter == 175 || !life) && restartTime != 0) {
+			restartTime--;
+				if (restartTime == 0) {
+					for (int i = 0; i < height; i++)
+						for (int j = 0; j < width; j++)
+							if (TileMap[i][j] == 'B')
+								TileMap[i][j] = ' ';
+
+					p.player_restart = true;
+					en.restart_enemy = true;
+
+					clearing_card();
+
+					counter = 0;
+					p.score = 0;
+					life = true;
+					p.direction_movement = 4;
+					
+					restartTime = 5000;
+					menu(window);
+				}
+		}
+		
+		if (!life) {
+			if (restartTime == 100) 
+				for (int i = 0; i < height; i++)
+					for (int j = 0; j < width; j++)
+						if (TileMap[i][j] != 'A')
+							TileMap[i][j] = 'B';	
 		}
 
 		if (counter < 175 && life) {

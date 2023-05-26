@@ -2,6 +2,20 @@
 #include "map.h"
 
 void Player::update() {
+	if (player_restart) {
+		TileMap[y][x] = ' ';
+
+		x = 9;
+		y = 15;
+
+		TileMap[y][x] = 'C';
+
+		new_x = x;
+		new_y = y;
+
+		player_restart = false;
+	}
+	else {
 		frame += 0.005;
 		if (frame > 5)
 			frame -= 5;
@@ -59,3 +73,4 @@ void Player::update() {
 			y = new_y;
 		}
 	}
+}

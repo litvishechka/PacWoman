@@ -8,6 +8,8 @@ const int ts = 25;
 
 int counter = 0;
 bool life = true;
+int restartTime = 5000;
+
 std::string TileMap[height] = {
 "AAAAAAAAAAAAAAAAAAA",
 "A        A        A",
@@ -16,11 +18,11 @@ std::string TileMap[height] = {
 "A AA A AAAAA A AA A",
 "A    A   A   A    A",
 "AAAA AAA A AAA AAAA",
-"BBBA A       A ABBB",
+"   A A       A A   ",
 "AAAA A AA4AA A AAAA",
-"BBBB   A123A   BBBB",
+"       A123A       ",
 "AAAA A AAAAA A AAAA",
-"BBBA A       A ABBB",
+"   A A       A A   ",
 "AAAA A AAAAA A AAAA",
 "A        A        A",
 "A AA AAA A AAA AA A",
@@ -31,4 +33,18 @@ std::string TileMap[height] = {
 "A                 A",
 "AAAAAAAAAAAAAAAAAAA",
 };
+
+void clearing_card() {
+	for (int i = 0; i <= 2; i++)
+		for (int j = 0; j <= 2; j++) {
+			for (int x = 0; x < 2; x++) {
+				TileMap[7 + j * 2][i + 16 * x] = 'B';
+
+				TileMap[9][3 + 12 * x] = 'B';
+			}
+
+			TileMap[9][8 + j] = 'B';
+		}
+}
+
 #endif

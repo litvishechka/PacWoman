@@ -5,6 +5,7 @@ public:
 	int new_x = 0, new_y = 0;
 	int direction_movement = 1, delay = 0;
 	int score = 0;
+	bool player_restart = false;
 
 	void update();
 };

@@ -1,6 +1,26 @@
 #include "enemy.h"
 #include "map.h"
 void Enemy::update() {
+	if (restart_enemy) {
+			for (int i = 0; i < 4; i++)
+				TileMap[y[i]][x[i]] = ' ';
+
+			x[0] = 8; x[1] = 9; x[2] = 10; x[3] = 9;
+			y[0] = 9; y[1] = 9; y[2] = 9; y[3] = 8;
+
+			TileMap[y[0]][x[0]] = '1';
+			TileMap[y[1]][x[1]] = '2';
+			TileMap[y[2]][x[2]] = '3';
+			TileMap[y[3]][x[3]] = '4';
+
+			for (int i = 0; i < 4; i++) {
+				new_x[i] = x[i];
+				new_y[i] = y[i];
+			}
+
+			restart_enemy = false;
+	}
+	else {
 		delay++;
 
 		if (delay >= 250) {
@@ -79,3 +99,4 @@ void Enemy::update() {
 			}
 		}
 	}
+}
