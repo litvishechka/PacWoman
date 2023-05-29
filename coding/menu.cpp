@@ -34,9 +34,18 @@ void menu(RenderWindow & window) {
 		menuNum = 0;
 		window.clear(Color(0, 0, 0));
  
-		if (IntRect(160, 120, 155, 57).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Magenta); menuNum = 1; }
-		if (IntRect(145, 190, 185, 46).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Magenta); menuNum = 2; }
-		if (IntRect(150, 260, 150, 34).contains(Mouse::getPosition(window))) { menu3.setColor(Color::Magenta); menuNum = 3; }
+		if (IntRect(160, 120, 155, 57).contains(Mouse::getPosition(window))) { 
+			menu1.setColor(Color::Magenta); 
+			menuNum = 1; 
+		}
+		if (IntRect(145, 190, 185, 46).contains(Mouse::getPosition(window))) { 
+			menu2.setColor(Color::Magenta); 
+			menuNum = 2; 
+		}
+		if (IntRect(150, 260, 150, 34).contains(Mouse::getPosition(window))) { 
+			menu3.setColor(Color::Magenta); 
+			menuNum = 3; 
+		}
  
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{

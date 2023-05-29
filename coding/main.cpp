@@ -91,28 +91,28 @@ int main() {
 			p.update();
 			en.update();
 		}
-        window.clear(Color::Black);
+		window.clear(Color::Black);
 
-        for (int i = 0; i < height; i++) {
+		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				if (TileMap[i][j] == 'A') plat.setTextureRect(IntRect(0, 0, ts, ts));
 				if (TileMap[i][j] == 'C') plat.setTextureRect(IntRect(ts * int(p.frame), ts * p.direction_movement, ts, ts));
-                if (TileMap[i][j] == ' ') plat.setTextureRect(IntRect(ts, 0, 2 * ts, ts));
+				if (TileMap[i][j] == ' ') plat.setTextureRect(IntRect(ts, 0, 2 * ts, ts));
 				if (TileMap[i][j] == '1') plat.setTextureRect(IntRect(ts * 5, ts * en.direction_movement[0], ts, ts));
 				if (TileMap[i][j] == '2') plat.setTextureRect(IntRect(ts * 6, ts * en.direction_movement[1], ts, ts));
 				if (TileMap[i][j] == '3') plat.setTextureRect(IntRect(ts * 7, ts * en.direction_movement[2], ts, ts));
 				if (TileMap[i][j] == '4') plat.setTextureRect(IntRect(ts * 8, ts * en.direction_movement[3], ts, ts));
-                if (TileMap[i][j] == 'B') continue;
+				if (TileMap[i][j] == 'B') continue;
 
-                plat.setPosition(j * ts, i * ts);
+				plat.setPosition(j * ts, i * ts);
 				window.draw(plat);
-            }
+			}
 			std::ostringstream playerScoreString;    // объявили переменную
 			playerScoreString << p.score;		//занесли в нее число очков, то есть формируем строку
 			text.setString("Score: " + playerScoreString.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
 			text.setPosition(0, 515);//задаем позицию текста
 			window.draw(text);
-        }
+		}
 		if (p.score == 175) window.draw(youwin);
 		if (!life) window.draw(youlose);
 		
