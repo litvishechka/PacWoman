@@ -5,8 +5,6 @@ const int height  = 21;
 const int width = 19;
 
 const int ts = 25;
-
-int counter = 0;
 bool life = true;
 int restartTime = 5000;
 

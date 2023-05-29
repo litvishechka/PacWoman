@@ -42,7 +42,7 @@ int main() {
 		while (window.pollEvent(event)) {
 			if (event.type == Event::Closed) window.close();
 
-			if (counter < 175 && life) {
+			if (p.score < 175 && life) {
 				if (event.type == Event::KeyPressed) {
 					p.new_x = p.x;
 					p.new_y = p.y;
@@ -55,7 +55,7 @@ int main() {
 			}
 		}
 
-		if ((counter == 175 || !life) && restartTime != 0) {
+		if ((p.score == 175 || !life) && restartTime != 0) {
 			restartTime--;
 				if (restartTime == 0) {
 					for (int i = 0; i < height; i++) {
@@ -68,7 +68,6 @@ int main() {
 
 					clearing_card();
 
-					counter = 0;
 					p.score = 0;
 					life = true;
 					p.direction_movement = 4;
@@ -88,7 +87,7 @@ int main() {
 			}
 		}
 
-		if (counter < 175 && life) {
+		if (p.score < 175 && life) {
 			p.update();
 			en.update();
 		}
@@ -114,7 +113,7 @@ int main() {
 			text.setPosition(0, 515);//задаем позицию текста
 			window.draw(text);
         }
-		if (counter == 175) window.draw(youwin);
+		if (p.score == 175) window.draw(youwin);
 		if (!life) window.draw(youlose);
 		
 		window.display();

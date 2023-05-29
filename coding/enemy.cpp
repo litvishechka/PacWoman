@@ -23,7 +23,7 @@ void Enemy::update() {
 	else {
 		delay++;
 
-		if (delay >= 250) {
+		if (delay >= 300) {
 			for (int i = 0; i < 4; i++) {
 				direction_movement[i] = rand() % 4 + 1;
 
@@ -45,7 +45,6 @@ void Enemy::update() {
 						new_y[i] -= 1;
 					break;
 				case 4:
-
 					if (TileMap[new_y[i] + 1][x[i]] != 'A')
 						new_y[i] += 1;
 					break;

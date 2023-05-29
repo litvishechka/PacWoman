@@ -3,6 +3,7 @@
 using namespace sf;
 
 void menu(RenderWindow & window) {
+
 	Texture menuTexture, menuTexture1, menuTexture2, menuTexture3, aboutTexture, menuBackground, decorationTexture;
 	menuTexture.loadFromFile("C:\\OOP\\PacWoman\\picture\\menu.png"); 
 	menuTexture1.loadFromFile("C:\\OOP\\PacWoman\\picture\\play.png");
@@ -39,14 +40,15 @@ void menu(RenderWindow & window) {
  
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-			if (menuNum == 1) isMenu = false;//если нажали первую кнопку, то выходим из меню 
+			if (menuNum == 1) isMenu = false; //если нажали первую кнопку, то выходим из меню 
 			if (menuNum == 2) { 
 				window.draw(about); 
 				window.display(); 
 				while (!Keyboard::isKeyPressed(Keyboard::Escape)); 
 			}
 			if (menuNum == 3)  { 
-				window.close(); isMenu = false; 
+				window.close();  
+				isMenu = false; 
 			}
  
 		}
@@ -57,7 +59,6 @@ void menu(RenderWindow & window) {
 		window.draw(menu1);
 		window.draw(menu2);
 		window.draw(menu3);
-		
 		window.display();
 	}
 }
